@@ -2,6 +2,7 @@ package br.com.ferraz.gerenciador.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,24 +13,29 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.ferraz.gerenciador.config.Banco;
 import br.com.ferraz.gerenciador.model.Empresa;
 
-@WebServlet("/novaEmpresa")
-public class NovaEmpresaServlet extends HttpServlet {
-       
-	private static final long serialVersionUID = 1L;
+@WebServlet("/listaEmpresas")
+public class ListaEmpresasServlet extends HttpServlet {
 	
-
+	private static final long serialVersionUID = 1L;
+       
+	
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String nomeEmpresa = req.getParameter("nome");
-		
-		Empresa empresa = new Empresa(0, nomeEmpresa);
-		
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Banco banco = new Banco();
-		banco.adiciona(empresa);
+		
+		List<Empresa> empresas = banco.getEmpresas();
 		
 		PrintWriter writer = resp.getWriter();
+		
+		writer.println("<html><body>");
+		writer.println("<ul>");
+		
+		for(Empresa empresa : empresas) {
+			writer.println("<li>" + empresa.getNome() + "</li>");
+		}
 
-		writer.println("<html><body>Empresa " + nomeEmpresa + " cadastrada</body></html>");
+		writer.println("</ul>");
+		writer.println("</body></html>");
 	}
 
 }
