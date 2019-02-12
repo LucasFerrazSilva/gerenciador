@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.ferraz.gerenciador.acao.Acao;
 import br.com.ferraz.gerenciador.acao.AcaoReturn;
+import br.com.ferraz.gerenciador.acao.Login;
+import br.com.ferraz.gerenciador.acao.LoginForm;
 
 @WebServlet("/")
 public class UnicaEntradaServlet extends HttpServlet {
@@ -18,7 +20,7 @@ public class UnicaEntradaServlet extends HttpServlet {
     
 	
 	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			Acao acao = getAcao(req);
 			
@@ -39,7 +41,15 @@ public class UnicaEntradaServlet extends HttpServlet {
 		paramAcao = Character.toUpperCase(paramAcao.charAt(0)) + (indexOfParam > -1 ? paramAcao.substring(1, indexOfParam) : paramAcao.substring(1));
 		
 		Acao acao = (Acao) Class.forName("br.com.ferraz.gerenciador.acao." + paramAcao).newInstance();
-		return acao;
+		
+		return (podeAcessarAcao(req, acao) ? acao : new LoginForm());
+	}
+
+
+	private boolean podeAcessarAcao(HttpServletRequest req, Acao acao) {
+		boolean usuarioEstaLogado = req.getSession().getAttribute("usuarioLogado") != null;
+		
+		return usuarioEstaLogado || acao.getClass().isAssignableFrom(Login.class);
 	}
 
 }
