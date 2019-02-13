@@ -26,8 +26,12 @@ public class Login implements Acao {
 		}
 		else {
 			return new AcaoReturn(REDIRECT, "loginForm");
-		}
-		
+		}		
+	}
+
+	@Override
+	public boolean loginObrigatorio() {
+		return false;
 	}
 
 }

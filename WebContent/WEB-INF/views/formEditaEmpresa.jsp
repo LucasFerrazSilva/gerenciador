@@ -9,6 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<c:import url="logoutParcial.jsp"></c:import>
+
 	<form action="${linkServletNovaEmpresa}" method="POST">
 		<input type="hidden" name="id" value="${empresa.id}" />
 		

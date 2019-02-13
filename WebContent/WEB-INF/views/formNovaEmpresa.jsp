@@ -8,6 +8,8 @@
 <title>Nova Empresa</title>
 </head>
 <body>
+	<c:import url="logoutParcial.jsp"></c:import>
+
 	<form action="${linkServletNovaEmpresa}" method="POST">
 		<label>
 			Nome: <input type="text" name="nome" />

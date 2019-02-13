@@ -4,12 +4,9 @@
 
 <html>
 <body>
-	
-	Usuário logado: ${usuarioLogado.login} <a href="/gerenciador/sair">Sair</a>
-	
-	<br />
-	<br />
 
+	<c:import url="logoutParcial.jsp"></c:import>
+	
 	<h3>Lista de empresas</h3>	
 	<ul>
 		<c:forEach items="${empresas}" var="empresa">

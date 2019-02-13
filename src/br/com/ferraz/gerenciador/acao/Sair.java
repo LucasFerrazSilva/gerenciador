@@ -1,15 +1,17 @@
 package br.com.ferraz.gerenciador.acao;
 
-import static br.com.ferraz.gerenciador.acao.AcaoReturnType.FORWARD;
+import static br.com.ferraz.gerenciador.acao.AcaoReturnType.REDIRECT;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LoginForm implements Acao {
+public class Sair implements Acao {
 
 	@Override
 	public AcaoReturn executa(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-		return new AcaoReturn(FORWARD, "formLogin.jsp");
+		req.getSession().invalidate();
+		
+		return new AcaoReturn(REDIRECT, "loginForm");
 	}
 
 	@Override

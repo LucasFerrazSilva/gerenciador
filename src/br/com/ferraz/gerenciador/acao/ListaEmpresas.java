@@ -14,8 +14,6 @@ public class ListaEmpresas implements Acao {
 
 	@Override
 	public AcaoReturn executa(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-		System.out.println("Listando empresas");
-		
 		Banco banco = new Banco();
 		
 		List<Empresa> empresas = banco.getEmpresas();
@@ -24,5 +22,5 @@ public class ListaEmpresas implements Acao {
 		
 		return new AcaoReturn(FORWARD, "listaEmpresas.jsp");
 	}
-	
+
 }
