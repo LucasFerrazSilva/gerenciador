@@ -2,6 +2,7 @@ package br.com.ferraz.gerenciador.servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,15 +28,29 @@ public class ListaEmpresasService extends HttpServlet {
 		
 		List<Empresa> empresas = banco.getEmpresas();
 		
-		XStream xstream = new XStream();
-		xstream.alias("empresa", Empresa.class);
-		String xml = xstream.toXML(empresas);
-		response.getWriter().print(xml);
+		String contentType = Optional.ofNullable(request.getHeader("Accept")).orElse("");
 		
-//		String json = gson.toJson(empresas);
-//
-//		response.setContentType("application/json");
-//		response.getWriter().print(json);
+		System.out.println(contentType);
+		
+		response.setContentType(contentType);
+		
+		String message = null;
+		
+		if(contentType.contains("application/json")) {
+			message = gson.toJson(empresas);			
+		}
+		else if(contentType.contains("application/xml")) {
+			XStream xstream = new XStream();
+			xstream.alias("empresa", Empresa.class);
+			
+			message = xstream.toXML(empresas);
+		}
+		else {
+			response.setContentType("application/json");
+			message = "{'message': 'no content'}";			
+		}
+		
+		response.getWriter().print(message);	
 	}
 
 }
