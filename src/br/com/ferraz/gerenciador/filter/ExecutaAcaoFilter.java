@@ -28,9 +28,14 @@ public class ExecutaAcaoFilter implements Filter {
 			
 			Acao acao = (Acao) req.getAttribute("acao");
 			
-			AcaoReturn acaoReturn = acao.executa(req, resp);
-
-			acaoReturn.executa(req, resp);
+			if(acao != null) {
+				AcaoReturn acaoReturn = acao.executa(req, resp);
+	
+				acaoReturn.executa(req, resp);
+			}
+			else {
+				chain.doFilter(request, response);
+			}
 		} 
 		catch (Exception e) {
 			System.out.println("Erro ao executar acao\n" + e);

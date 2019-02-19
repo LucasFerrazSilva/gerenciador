@@ -28,9 +28,8 @@ public class ValidaLoginFilter implements Filter {
 	
 			boolean usuarioEstaLogado = req.getSession().getAttribute("usuarioLogado") != null;
 			
-			acao = (usuarioEstaLogado || !acao.loginObrigatorio() ? acao : new LoginForm());
-			
-			req.setAttribute("acao", acao);
+			if (acao != null && !usuarioEstaLogado && acao.loginObrigatorio())
+				req.setAttribute("acao", new LoginForm());				
 			
 			chain.doFilter(request, response);
 		}

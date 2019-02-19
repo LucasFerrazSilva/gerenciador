@@ -33,12 +33,12 @@ public class SetAcaoFilter implements Filter {
 			Acao acao = (Acao) Class.forName("br.com.ferraz.gerenciador.acao." + paramAcao).newInstance();
 	
 			req.setAttribute("acao", acao);
-			
-			chain.doFilter(request, response);
 		}
 		catch(Exception e) {
-			throw new ServletException("Erro ao pegar acao " + paramAcao + "\n" + e);
+			System.out.println("Erro ao pegar acao " + paramAcao + "\n" + e);
 		}
+			
+		chain.doFilter(request, response);
 	}
 	
 
